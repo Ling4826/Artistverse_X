@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chord Progression Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Chord Progression Generator</h1>
+      <div>
+        <label for="key">Key:</label>
+        <select id="key" v-model="selectedKey">
+          <option v-for="key in keys" :value="key">{{ key }}</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="progression">Progression:</label>
+        <select id="progression" v-model="selectedProgression">
+          <option v-for="(progression, index) in progressions" :value="index">
+            {{ progression.name }}
+          </option>
+        </select>
+      </div>
+      <button @click="generateProgression">Generate Progression</button>
+      <div v-if="progression.length > 0">
+        <h2>Chord Progression:</h2>
+        <ul>
+          <li v-for="(chord, index) in progression" :key="index">{{ chord }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      function generateChordProgression(key, type, progression) {
+        const chordMap = {
+          major: {
+            C: {
+              2516: ['Dm', 'G', 'C', 'Am'],
+              1625: ['C', 'Am', 'Dm', 'G'],
+              1564: ['C', 'G', 'Am', 'F'],
+              1645: ['C', 'F', 'G', 'Am'],
+              1451: ['C', 'G', 'Am', 'Em'],
+              1465: ['C', 'G', 'Am', 'F'],
+              1626: ['C', 'Am', 'Dm', 'Bdim'],
+              6432: ['F', 'G', 'Am', 'Em']
+              // Add more major progressions as needed
+            },
+            D: {
+              2516: ['Em', 'A', 'D', 'Bm'],
+              1625: ['D', 'Bm', 'Em', 'A'],
+              1564: ['D', 'A', 'Bm', 'G'],
+              1645: ['D', 'G', 'A', 'Bm'],
+              1451: ['D', 'A', 'Bm', 'F#m'],
+              1465: ['D', 'A', 'Bm', 'G'],
+              1626: ['D', 'Bm', 'Em', 'C#dim'],
+              6432: ['G', 'A', 'Bm', 'F#m']
+              // Add more major progressions as needed
+            },
+            E: {
+              2516: ['F#m', 'B', 'E', 'C#m'],
+              1625: ['E', 'C#m', 'F#m', 'B'],
+              1564: ['E', 'B', 'C#m', 'A'],
+              1645: ['E', 'A', 'B', 'C#m'],
+              1451: ['E', 'B', 'C#m', 'G#m'],
+              1465: ['E', 'B', 'C#m', 'A'],
+              1626: ['E', 'C#m', 'F#m', 'D#dim'],
+              6432: ['A', 'B', 'C#m', 'G#m']
+              // Add more major progressions as needed
+            },
+            F: {
+              2516: ['Gm', 'C', 'F', 'Dm'],
+              1625: ['F', 'Dm', 'Gm', 'C'],
+              1564: ['F', 'C', 'Dm', 'Bb'],
+              1645: ['F', 'Bb', 'C', 'Dm'],
+              1451: ['F', 'C', 'Dm', 'Am'],
+              1465: ['F', 'C', 'Dm', 'Bb'],
+              1626: ['F', 'Dm', 'Gm', 'Edim'],
+              6432: ['Bb', 'C', 'Dm', 'Am']
+              // Add more major progressions as needed
+            },
+            G: {
+              2516: ['Am', 'D', 'G', 'Em'],
+              1625: ['G', 'Em', 'Am', 'D'],
+              1564: ['G', 'D', 'Em', 'C'],
+              1645: ['G', 'C', 'D', 'Em'],
+              1451: ['G', 'D', 'Em', 'Bm'],
+              1465: ['G', 'D', 'Em', 'C'],
+              1626: ['G', 'Em', 'Am', 'F#dim'],
+              6432: ['C', 'D', 'Em', 'Bm']
+              // Add more major progressions as needed
+            },
+            A: {
+              2516: ['Bm', 'E', 'A', 'F#m'],
+              1625: ['A', 'F#m', 'Bm', 'E'],
+              1564: ['A', 'E', 'F#m', 'D'],
+              1645: ['A', 'D', 'E', 'F#m'],
+              1451: ['A', 'E', 'F#m', 'C#m'],
+              1465: ['A', 'E', 'F#m', 'D'],
+              1626: ['A', 'F#m', 'Bm', 'G#dim'],
+              6432: ['D', 'E', 'F#m', 'C#m']
+              // Add more major progressions as needed
+            },
+            B: {
+              2516: ['C#m', 'F#', 'B', 'G#m'],
+              1625: ['B', 'G#m', 'C#m', 'F#'],
+              1564: ['B', 'F#', 'G#m', 'E'],
+              1645: ['B', 'E', 'F#', 'G#m'],
+              1451: ['B', 'F#', 'G#m', 'D#m'],
+              1465: ['B', 'F#', 'G#m', 'E'],
+              1626: ['B', 'G#m', 'C#m', 'A#dim'],
+              6432: ['E', 'F#', 'G#m', 'D#m']
+              // Add more major progressions as needed
+            }
+            // Add more major keys as needed
+          }
+        }
+        return chordMap[type][key][progression] || []
+      }
+
+      new Vue({
+        el: '#app',
+        data: {
+          keys: ['C', 'D', 'E', 'F', 'G', 'A', 'B'], // You can add more keys here
+          selectedKey: 'C',
+          selectedType: 'major',
+          progressions: [
+            { name: '2-5-1-6', value: '2516' },
+            { name: '1-6-2-5', value: '1625' },
+            { name: '1-5-6-4', value: '1564' },
+            { name: '1-6-4-5', value: '1645' },
+            { name: '1-4-5-1', value: '1451' },
+            { name: '1-4-6-5', value: '1465' },
+            { name: '6-4-3-2', value: '6432' }
+          ],
+          selectedProgression: 0, // Default to the first progression
+          progression: []
+        },
+        methods: {
+          generateProgression() {
+            this.progression = generateChordProgression(
+              this.selectedKey,
+              this.selectedType,
+              this.progressions[this.selectedProgression].value
+            )
+          }
+        }
+      })
+    </script>
+  </body>
+</html>
