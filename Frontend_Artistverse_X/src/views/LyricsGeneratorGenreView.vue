@@ -127,7 +127,7 @@ export default {
       errors: {}
     }
   },
-// ✅ Lifecycle hook goes here
+// Lifecycle hook
   mounted() {
     const edited = localStorage.getItem('lyrics_after_edit');
     if (edited) {

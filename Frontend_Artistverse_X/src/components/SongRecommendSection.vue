@@ -6,7 +6,7 @@
       <!-- Authentication Required Message -->
       <div v-if="!isAuthenticated" class="auth-required-message">
         <div class="auth-container">
-          <div class="auth-icon">🎵</div>
+          <div class="auth-icon"></div>
           <h3>Login Required</h3>
           <p>Please login with Spotify to get personalized song recommendations</p>
           <button @click="loginWithSpotify" class="spotify-login-btn" :disabled="isLoggingIn">
@@ -29,7 +29,7 @@
 
       <!-- Error State -->
       <div v-else-if="error" class="error-container">
-        <div class="error-icon">⚠️</div>
+        <div class="error-icon"></div>
         <h3>Unable to Load Recommendations</h3>
         <p>{{ error }}</p>
         <button @click="loadRecommendations" class="retry-btn">Try Again</button>
@@ -62,7 +62,7 @@
             <div class="song-image">
               <img v-if="song.image" :src="song.image" :alt="song.name" @error="handleImageError" />
               <div v-else class="placeholder-image">
-                <i class="music-icon">🎵</i>
+                <i class="music-icon"></i>
               </div>
             </div>            <div class="song-info">              <h3 class="song-name">{{ song.song_title || song.name || 'Unknown Song' }}</h3>
               <p class="artist-name">{{ song.artist_name || song.artist || 'Unknown Artist' }}</p>
@@ -77,7 +77,7 @@
             <div class="song-details-image">
               <img v-if="selectedSong.image" :src="selectedSong.image" :alt="selectedSong.song_title" @error="handleImageError" />
               <div v-else class="placeholder-detail-image">
-                <i class="music-icon">🎵</i>
+                <i class="music-icon"></i>
               </div>
             </div>
             <div class="song-details-info">
@@ -1376,7 +1376,7 @@ export default {
 }
 
 .music-style-section h3::before {
-  content: "🎵";
+  content: "";
   font-size: 1.3rem;
   filter: drop-shadow(0 0 8px rgba(29, 185, 84, 0.5));
 }
@@ -1433,7 +1433,7 @@ export default {
 }
 
 .musical-details-section h3::before {
-  content: "🎼";
+  content: "";
   font-size: 1.3rem;
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
 }

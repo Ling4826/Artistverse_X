@@ -48,7 +48,7 @@
             class="play-btn"
             :disabled="!hasMidiFile"
           >
-            {{ isPlaying ? '⏸️' : '▶️' }}
+            {{ isPlaying ? '⏸' : '' }}
           </button>
           
           <!-- Progress Bar and Time Display -->
@@ -64,7 +64,7 @@
           
           <!-- Volume Control -->
           <div class="volume-control">
-            <span class="volume-icon">🔊</span>
+            <span class="volume-icon"></span>
             <input 
               type="range" 
               min="0" 

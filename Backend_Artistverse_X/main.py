@@ -82,7 +82,7 @@ def spotify_validate():
     spotify_auth_controller = SpotifyAuthController()
     return spotify_auth_controller.validate_token()
 
-# ✅ เพิ่ม Logout Route ใหม่
+# Spotify Logout Route
 @app.route('/auth/spotify/logout', methods=['POST'])
 def spotify_logout():
     spotify_auth_controller = SpotifyAuthController()

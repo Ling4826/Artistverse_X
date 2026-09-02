@@ -25,9 +25,9 @@ export const useSearchStore = defineStore('search', {
     
     // Filter options
     filterOptions: [
-      { key: 'name', label: 'Song Name', icon: '🎵' },
-      { key: 'artists', label: 'Artist', icon: '👤' },
-      { key: 'genres', label: 'Genre', icon: '🎭' }
+      { key: 'name', label: 'Song Name', icon: '' },
+      { key: 'artists', label: 'Artist', icon: '' },
+      { key: 'genres', label: 'Genre', icon: '' }
     ],
       // UI state
     showMobileFilters: false,

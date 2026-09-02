@@ -2,14 +2,14 @@
 
 Artistverse X is a web application featuring a Vue 3 frontend and a Python Flask backend. It allows users to authenticate via Spotify, analyze music, and generate AI-driven lyrics using Groq.
 
-## 🏗 Architecture
+##  Architecture
 - **Frontend**: Vue 3 (Vite) + Nginx (Dockerized)
 - **Backend**: Python 3.10 + Flask + Gunicorn (Dockerized)
 - **Database**: MariaDB 10.11
 
 ---
 
-## 🚀 Getting Started (Local Development)
+##  Getting Started (Local Development)
 
 ### Prerequisites
 - Docker and Docker Compose installed on your local machine.
@@ -43,9 +43,9 @@ REDIRECT_URI=http://localhost:10690/api/auth/spotify/callback
 
 ---
 
-## 🚢 Production Deployment (Docker Swarm / Portainer)
+##  Production Deployment (Docker Swarm / Portainer)
 
-### ⚠️ IMPORTANT: Docker Swarm Caching Issue
+###  IMPORTANT: Docker Swarm Caching Issue
 When updating the stack on Portainer, Docker Swarm aggressively caches images with the `:latest` tag. If you simply press "Update the service", it will likely reuse the old image stored on the server's hard drive instead of pulling your new code.
 
 **How to correctly deploy updates:**
@@ -59,7 +59,7 @@ The backend container is **NOT** exposed directly to the outside world. All exte
 
 ---
 
-## 🛠 Critical Code Details
+##  Critical Code Details
 
 ### 1. Nginx Proxy Configuration (`nginx.conf`)
 Inside the Frontend, Nginx acts as a reverse proxy for the Python backend. 

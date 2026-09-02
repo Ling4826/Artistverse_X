@@ -8,14 +8,22 @@
       </div>
       
       <div class="error-message" v-else-if="error">
-        <div class="error-icon">❌</div>
+        <div class="error-icon">
+          <svg class="w-12 h-12 text-red-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </div>
         <h2>Login Failed</h2>
         <p>{{ error }}</p>
         <button @click="goHome" class="retry-btn">Go to Homepage</button>
       </div>
       
       <div class="success-message" v-else-if="success">
-        <div class="success-icon">✅</div>
+        <div class="success-icon">
+          <svg class="w-12 h-12 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </div>
         <h2>Login Successful!</h2>
         <p>Welcome {{ authStore.user?.display_name }}! Redirecting...</p>
       </div>

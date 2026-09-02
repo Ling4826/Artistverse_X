@@ -19,13 +19,13 @@ class SpotifyAuthController:
             client_secret=self.client_secret,
             redirect_uri=self.redirect_uri,
             scope=self.scope,
-            show_dialog=True  # ✅ Force show login dialog
+            show_dialog=True  # Force show login dialog
         )
 
     def get_login_url(self):
         """Generate Spotify login URL"""
         try:
-            # ✅ เพิ่ม state parameter เพื่อ force new login
+            # Add state parameter to force new login
             state = str(uuid.uuid4())
             auth_url = self.sp_oauth.get_authorize_url(state=state)
             return jsonify({
@@ -56,7 +56,7 @@ class SpotifyAuthController:
                     'error': 'No authorization code received'
                 }), 400
 
-            # ✅ Clear any cached token info
+            # Clear any cached token info
             self.sp_oauth.cache_handler.save_token_to_cache(None)
             
             # Exchange code for access token
@@ -72,7 +72,7 @@ class SpotifyAuthController:
             sp = spotipy.Spotify(auth=token_info['access_token'])
             user_profile = sp.current_user()
             
-            # ✅ เพิ่ม log เพื่อ debug
+            # User login logged
             print(f"New user logged in: {user_profile['id']} - {user_profile.get('display_name')}")
             
             return jsonify({
@@ -89,7 +89,7 @@ class SpotifyAuthController:
                 }
             })
         except Exception as e:
-            print(f"Callback error: {str(e)}")  # ✅ เพิ่ม debug log
+            print(f"Callback error: {str(e)}")
             return jsonify({
                 'success': False,
                 'error': str(e)
@@ -139,7 +139,7 @@ class SpotifyAuthController:
             sp = spotipy.Spotify(auth=access_token)
             user_profile = sp.current_user()
             
-            # ✅ เพิ่ม log เพื่อ debug
+            # Profile fetch logged
             print(f"Profile requested for user: {user_profile['id']}")
             
             return jsonify({
@@ -153,7 +153,7 @@ class SpotifyAuthController:
                 }
             })
         except Exception as e:
-            print(f"Profile fetch error: {str(e)}")  # ✅ เพิ่ม debug log
+            print(f"Profile fetch error: {str(e)}")
             return jsonify({
                 'success': False,
                 'error': str(e)
@@ -177,11 +177,11 @@ class SpotifyAuthController:
             sp = spotipy.Spotify(auth=access_token)
             user_data = sp.current_user()
             
-            # ✅ Return user info ด้วยเพื่อ double check
+            # Return user info for verification
             return jsonify({
                 'success': True,
                 'valid': True,
-                'user_id': user_data['id']  # ✅ เพิ่ม user_id เพื่อ verify
+                'user_id': user_data['id']
             })
         except Exception as e:
             return jsonify({
@@ -190,7 +190,7 @@ class SpotifyAuthController:
                 'error': str(e)
             }), 401
 
-    # ✅ เพิ่ม method สำหรับ logout/revoke token
+    # Method for logout/revoke token
     def logout(self):
         """Logout and revoke token"""
         try:

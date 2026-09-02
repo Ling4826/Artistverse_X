@@ -152,7 +152,7 @@
               ><li><a>Chord Progression</a></li></router-link
             >
             <router-link to="/ai-assistance"
-              ><li><a>AI Analysis</a></li></router-link
+              ><li><a>Songwriting Studio</a></li></router-link
             >
           </ul>
         </div>

@@ -2,9 +2,8 @@
   <div class="body">
     <div class="center-container">
       <div class="topic animate__animated animate__fadeInDown animate__delay-1s">
-        <h1>Welcome to AI Assistance</h1>
-        <p>This interface provides music suggestions based on lyrics you provide.</p>
-        <p>You must put only lyrics of your lyrics in here</p>
+        <h1>Songwriting Studio</h1>
+        <p>Enter your lyrics below to receive musical guidance, key suggestions, and chord arrangements.</p>
       </div>
 
       <div class="chat-container animate__animated animate__fadeInDown animate__delay-1s">
@@ -22,7 +21,7 @@
         </div>
 
         <div class="ai-block">
-          <h2>Suggestion</h2>
+          <h2>Producer Notes</h2>
           <div class="chat-messages">
             <div
               v-for="message in aiMessages"
@@ -45,15 +44,15 @@
             v-model="userInput"
             @keyup.enter="sendMessage"
             type="text"
-            placeholder="Type a message..."
+            placeholder="Paste your lyrics here..."
             class="input-field"
           />
-          <button @click="sendMessage" class="send-button">Send</button>
+          <button @click="sendMessage" class="send-button">Analyze</button>
         </div>
       </div>
 
       <div class="save-button-container animate__animated animate__fadeInUp animate__delay-2s">
-        <button @click="saveAnalyzedLyrics" class="save-button">Save Analyzed Lyrics</button>
+        <button @click="saveAnalyzedLyrics" class="save-button">Save Producer Notes</button>
       </div>
     </div>
   </div>

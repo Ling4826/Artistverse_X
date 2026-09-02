@@ -6,10 +6,10 @@
  * Test Success Rate: 100% (4/4 tests passing)
  * 
  * TEST COVERAGE:
- * ✅ Test Case 1: Successful login flow with valid API response
- * ✅ Test Case 2: Error handling when backend login API fails
- * ✅ Test Case 3: Error handling when network connection fails
- * ✅ Test Case 4: Loading state management during login process
+ *  Test Case 1: Successful login flow with valid API response
+ *  Test Case 2: Error handling when backend login API fails
+ *  Test Case 3: Error handling when network connection fails
+ *  Test Case 4: Loading state management during login process
  * 
  * TECHNICAL IMPLEMENTATION:
  * - Vitest test framework for frontend JavaScript testing
@@ -31,7 +31,7 @@
  * - console.error: Error logging verification
  * - Error scenarios: Network failures and API error responses
  * 
- * STATUS: ✅ ALL TESTS PASSING - Method ready for production
+ * STATUS:  ALL TESTS PASSING - Method ready for production
  */
 
 import { describe, it, expect, beforeEach, vi } from 'vitest'

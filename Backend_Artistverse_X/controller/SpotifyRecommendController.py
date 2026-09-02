@@ -781,7 +781,7 @@ class SpotifyRecommendController:
     
     def _get_key_name(self, key_number):
         """Convert key number to key name"""
-        keys = ['C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭', 'A', 'A♯/B♭', 'B']
+        keys = ['C', 'C/D', 'D', 'D/E', 'E', 'F', 'F/G', 'G', 'G/A', 'A', 'A/B', 'B']
         if 0 <= key_number <= 11:
             return keys[key_number]
         return 'Unknown'    
@@ -789,28 +789,28 @@ class SpotifyRecommendController:
     def _estimate_instruments(self, genre):
         """Estimate typical instruments for a genre"""
         instrument_map = {
-            'pop': '🎤 Vocals • 🎸 Guitar • 🎹 Piano • 🥁 Drums • 🎛️ Synths',
-            'rock': '⚡ Electric Guitar • 🎸 Bass • 🥁 Drums • 🎤 Vocals',
-            'hip-hop': '🥁 Drums • 🎸 Bass • 🎛️ Synths • 🎤 Vocals • 📀 Samples',
-            'rap': '🥁 Drums • 🎸 Bass • 🎛️ Synths • 🎤 Vocals • 📀 Samples',
-            'electronic': '🎛️ Synthesizers • 🥁 Drum Machine • 💻 Computer',
-            'dance': '🎛️ Synthesizers • 🥁 Drum Machine • 🎸 Bass',
-            'indie': '🎸 Guitar • 🎸 Bass • 🥁 Drums • 🎤 Vocals • 🎹 Piano',
-            'folk': '🎸 Acoustic Guitar • 🎤 Vocals • 🎵 Harmonica',
-            'country': '🎸 Guitar • 🪕 Banjo • 🎻 Fiddle • 🎤 Vocals • 🥁 Drums',
-            'jazz': '🎹 Piano • 🎷 Saxophone • 🎺 Trumpet • 🎸 Bass • 🥁 Drums',
-            'blues': '🎸 Guitar • 🎵 Harmonica • 🎹 Piano • 🎸 Bass • 🥁 Drums',
-            'reggae': '🎸 Guitar • 🎸 Bass • 🥁 Drums • 🎹 Keyboard',
-            'punk': '⚡ Electric Guitar • 🎸 Bass • 🥁 Drums • 🎤 Vocals',
-            'metal': '⚡ Electric Guitar • 🎸 Bass • 🥁 Drums • 🎤 Vocals',
-            'classical': '🎼 Orchestra • 🎹 Piano • 🎻 Strings • 🎶 Woodwinds',
-            'alternative': '🎸 Guitar • 🎸 Bass • 🥁 Drums • 🎤 Vocals • 🎛️ Synths',
-            'r&b': '🎤 Vocals • 🎹 Piano • 🎸 Guitar • 🎸 Bass • 🥁 Drums',
-            'soul': '🎤 Vocals • 🎹 Piano • 🎸 Guitar • 🎸 Bass • 🥁 Drums',
-            'funk': '🎸 Bass • 🎸 Guitar • 🥁 Drums • 🎤 Vocals • 🎺 Horns',
-            'ambient': '🎛️ Synthesizers • 🎵 Pads • 🎙️ Field Recordings'
+            'pop': 'Vocals • Guitar • Piano • Drums • Synths',
+            'rock': 'Electric Guitar • Bass • Drums • Vocals',
+            'hip-hop': 'Drums • Bass • Synths • Vocals • Samples',
+            'rap': 'Drums • Bass • Synths • Vocals • Samples',
+            'electronic': 'Synthesizers • Drum Machine • Computer',
+            'dance': 'Synthesizers • Drum Machine • Bass',
+            'indie': 'Guitar • Bass • Drums • Vocals • Piano',
+            'folk': 'Acoustic Guitar • Vocals • Harmonica',
+            'country': 'Guitar • Banjo • Fiddle • Vocals • Drums',
+            'jazz': 'Piano • Saxophone • Trumpet • Bass • Drums',
+            'blues': 'Guitar • Harmonica • Piano • Bass • Drums',
+            'reggae': 'Guitar • Bass • Drums • Keyboard',
+            'punk': 'Electric Guitar • Bass • Drums • Vocals',
+            'metal': 'Electric Guitar • Bass • Drums • Vocals',
+            'classical': 'Orchestra • Piano • Strings • Woodwinds',
+            'alternative': 'Guitar • Bass • Drums • Vocals • Synths',
+            'r&b': 'Vocals • Piano • Guitar • Bass • Drums',
+            'soul': 'Vocals • Piano • Guitar • Bass • Drums',
+            'funk': 'Bass • Guitar • Drums • Vocals • Horns',
+            'ambient': 'Synthesizers • Pads • Field Recordings'
         }
-        return instrument_map.get(genre, '🎸 Guitar • 🎹 Piano • 🥁 Drums • 🎤 Vocals')
+        return instrument_map.get(genre, 'Guitar • Piano • Drums • Vocals')
 
     def _generate_keywords(self, genre, track_name):
         """Generate relevant keywords based on genre and track info"""
@@ -858,22 +858,22 @@ class SpotifyRecommendController:
         # Style templates based on popularity and genre
         style_templates = {
             'high_pop': [
-                "🔥 Chart-Topping Contemporary {genre} • Radio-Friendly by {artist}",
-                "⭐ Billboard-Ready Modern {genre} • Commercial Hit by {artist}",
-                "🎯 Mainstream {genre} Sensation • Popular Track by {artist}",
-                "💫 Award-Winning {genre} • Chart Success by {artist}"
+                " Chart-Topping Contemporary {genre} • Radio-Friendly by {artist}",
+                " Billboard-Ready Modern {genre} • Commercial Hit by {artist}",
+                " Mainstream {genre} Sensation • Popular Track by {artist}",
+                " Award-Winning {genre} • Chart Success by {artist}"
             ],
             'medium_pop': [
-                "🎵 Trending {genre} • Rising Star {artist}",
-                "🌟 Contemporary {genre} • Emerging Artist {artist}",
-                "🎶 Modern {genre} Sound • Up-and-Coming {artist}",
-                "✨ Fresh {genre} • New Wave by {artist}"
+                " Trending {genre} • Rising Star {artist}",
+                " Contemporary {genre} • Emerging Artist {artist}",
+                " Modern {genre} Sound • Up-and-Coming {artist}",
+                " Fresh {genre} • New Wave by {artist}"
             ],
             'low_pop': [
-                "💎 Hidden Gem {genre} • Underground by {artist}",
-                "🎭 Indie {genre} • Alternative Sound by {artist}",
-                "🌙 Intimate {genre} • Artistic Expression by {artist}",
-                "🎨 Creative {genre} • Unique Style by {artist}"
+                " Hidden Gem {genre} • Underground by {artist}",
+                " Indie {genre} • Alternative Sound by {artist}",
+                " Intimate {genre} • Artistic Expression by {artist}",
+                " Creative {genre} • Unique Style by {artist}"
             ]
         }
         

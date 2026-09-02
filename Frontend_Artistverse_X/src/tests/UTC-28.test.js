@@ -9,11 +9,11 @@
  * Technical Complexity: High - Frontend service testing with mock APIs and error scenarios
  * 
  * Test Validation Points:
- * 1. ✅ Successful API call with proper data transformation
- * 2. ✅ Empty query error handling 
- * 3. ✅ Request timeout handling with proper cleanup
- * 4. ✅ Network error detection and response
- * 5. ✅ Server error (404) handling with appropriate error messages
+ * 1.  Successful API call with proper data transformation
+ * 2.  Empty query error handling 
+ * 3.  Request timeout handling with proper cleanup
+ * 4.  Network error detection and response
+ * 5.  Server error (404) handling with appropriate error messages
  * 
  * Service Under Test: searchService.js - search() method
  * - API request construction with query parameters

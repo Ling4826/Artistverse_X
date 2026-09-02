@@ -126,7 +126,7 @@
             <div class="card-image">
               <img v-if="item.image" :src="item.image" :alt="item.name" class="song-cover-image" />
               <div v-else class="placeholder-image">
-                <i class="music-icon">🎵</i>
+                <i class="music-icon"></i>
               </div>
               <div class="card-score">{{ item.score?.toFixed(1) }}</div>
             </div>
@@ -142,7 +142,7 @@
 
         <!-- Empty State -->
         <div v-if="searchStore.isEmptySearch" class="empty-state">
-          <div class="empty-icon">🔍</div>
+          <div class="empty-icon"></div>
           <h3>No results found</h3>
           <p>Try adjusting your search terms or search field</p>
           <div class="empty-suggestions" v-if="searchStore.recentSearches.length > 0">
@@ -162,7 +162,7 @@
 
         <!-- Error State -->
         <div v-if="searchStore.error" class="error-state">
-          <div class="error-icon">⚠️</div>
+          <div class="error-icon"></div>
           <h3>Search Error</h3>
           <p>{{ searchStore.error }}</p>
           <button @click="retrySearch" class="retry-btn">Try Again</button>
@@ -192,7 +192,7 @@
           <div class="song-details-image">
             <img v-if="searchStore.selectedItem.image" :src="searchStore.selectedItem.image" :alt="searchStore.selectedItem.name" class="detail-cover-image" />
             <div v-else class="placeholder-detail-image">
-              <i class="music-icon">🎵</i>
+              <i class="music-icon"></i>
             </div>
           </div>
           <div class="song-details-info">
@@ -345,7 +345,7 @@ export default {
     // Get filter icon
     const getFilterIcon = (field) => {
       const filter = searchStore.filterOptions.find(f => f.key === field);
-      return filter ? filter.icon : '🔍';
+      return filter ? filter.icon : '';
     };
 
     // Get filter label
@@ -363,26 +363,26 @@ export default {
 
     // Top Genres data
     const topGenres = [
-      { name: 'Pop', icon: '🎤', color: 'linear-gradient(135deg, #FF6B6B, #FF8E8B)' },
-      { name: 'Rock', icon: '🎸', color: 'linear-gradient(135deg, #4ECDC4, #55E6C1)' },
-      { name: 'Hip Hop', icon: '🎧', color: 'linear-gradient(135deg, #FFA07A, #FFB88C)' },
-      { name: 'R&B', icon: '🎷', color: 'linear-gradient(135deg, #9B59B6, #8E44AD)' },
-      { name: 'Electronic', icon: '🎹', color: 'linear-gradient(135deg, #3498DB, #2980B9)' },
-      { name: 'Classical', icon: '🎻', color: 'linear-gradient(135deg, #D4AF37, #F1C40F)' },
-      { name: 'Jazz', icon: '🎺', color: 'linear-gradient(135deg, #E67E22, #D35400)' },
-      { name: 'Anime', icon: '🎌', color: 'linear-gradient(135deg, #FF9FF3, #F368E0)' }
+      { name: 'Pop', icon: '', color: 'linear-gradient(135deg, #FF6B6B, #FF8E8B)' },
+      { name: 'Rock', icon: '', color: 'linear-gradient(135deg, #4ECDC4, #55E6C1)' },
+      { name: 'Hip Hop', icon: '', color: 'linear-gradient(135deg, #FFA07A, #FFB88C)' },
+      { name: 'R&B', icon: '', color: 'linear-gradient(135deg, #9B59B6, #8E44AD)' },
+      { name: 'Electronic', icon: '', color: 'linear-gradient(135deg, #3498DB, #2980B9)' },
+      { name: 'Classical', icon: '', color: 'linear-gradient(135deg, #D4AF37, #F1C40F)' },
+      { name: 'Jazz', icon: '', color: 'linear-gradient(135deg, #E67E22, #D35400)' },
+      { name: 'Anime', icon: '', color: 'linear-gradient(135deg, #FF9FF3, #F368E0)' }
     ];
 
     // Popular Artists data
     const popularArtists = [
-      { name: 'Taylor Swift', icon: '👱‍♀️', color: 'linear-gradient(135deg, #ff9a9e, #fecfef)' },
-      { name: 'The Weeknd', icon: '🕶️', color: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
-      { name: 'Drake', icon: '🦉', color: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
-      { name: 'Ed Sheeran', icon: '🎸', color: 'linear-gradient(135deg, #fdcbf1, #fdcbf1)' },
-      { name: 'Ariana Grande', icon: '🎤', color: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)' },
-      { name: 'Justin Bieber', icon: '🧢', color: 'linear-gradient(135deg, #d4fc79, #96e6a1)' },
-      { name: 'Bruno Mars', icon: '🕺', color: 'linear-gradient(135deg, #84fab0, #8fd3f4)' },
-      { name: 'YOASOBI', icon: '🎵', color: 'linear-gradient(135deg, #fccb90, #d57eeb)' }
+      { name: 'Taylor Swift', icon: '‍', color: 'linear-gradient(135deg, #ff9a9e, #fecfef)' },
+      { name: 'The Weeknd', icon: '', color: 'linear-gradient(135deg, #a18cd1, #fbc2eb)' },
+      { name: 'Drake', icon: '', color: 'linear-gradient(135deg, #fbc2eb, #a6c1ee)' },
+      { name: 'Ed Sheeran', icon: '', color: 'linear-gradient(135deg, #fdcbf1, #fdcbf1)' },
+      { name: 'Ariana Grande', icon: '', color: 'linear-gradient(135deg, #a1c4fd, #c2e9fb)' },
+      { name: 'Justin Bieber', icon: '', color: 'linear-gradient(135deg, #d4fc79, #96e6a1)' },
+      { name: 'Bruno Mars', icon: '', color: 'linear-gradient(135deg, #84fab0, #8fd3f4)' },
+      { name: 'YOASOBI', icon: '', color: 'linear-gradient(135deg, #fccb90, #d57eeb)' }
     ];
 
     // Auto-search helpers
@@ -1002,7 +1002,7 @@ export default {
 
 .tag.no-genre::before,
 .meta-item.no-genre::before {
-  content: "❌ ";
+  content: " ";
   font-size: 0.8em;
 }
 
