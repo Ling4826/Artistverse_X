@@ -17,7 +17,7 @@ class GenreService:
             "3. Output ONLY the raw song lyrics."
         )
         completion = self.groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-70b-versatile",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user",

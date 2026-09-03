@@ -20,7 +20,7 @@ class AnalysisService:
             "3. Present as clean, direct, professional Producer Notes."
         )
         completion = self.groq_client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-70b-versatile",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user",
