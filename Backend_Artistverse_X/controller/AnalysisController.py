@@ -7,6 +7,9 @@ class AnalysisController:
         self.analysis_service = AnalysisService(api_key)
 
     def analysis_lyrics_handler(self):
-        lyrics = request.json.get('lyrics')
-        analysis = self.analysis_service.analysis_lyrics(lyrics)
-        return jsonify({'analysis': analysis})
+        try:
+            lyrics = request.json.get('lyrics')
+            analysis = self.analysis_service.analysis_lyrics(lyrics)
+            return jsonify({'analysis': analysis})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500

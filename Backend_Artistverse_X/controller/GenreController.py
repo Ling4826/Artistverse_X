@@ -7,8 +7,11 @@ class GenreController:
         self.genre_service = GenreService(api_key)
 
     def generate_lyrics_genre_handler(self):
-        prompt = request.json.get('prompt')
-        genre = request.json.get('genre')
-        language = request.json.get('language')
-        lyrics = self.genre_service.generate_lyrics_genre(prompt, genre, language)
-        return jsonify({'lyrics': lyrics})
+        try:
+            prompt = request.json.get('prompt')
+            genre = request.json.get('genre')
+            language = request.json.get('language')
+            lyrics = self.genre_service.generate_lyrics_genre(prompt, genre, language)
+            return jsonify({'lyrics': lyrics})
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
