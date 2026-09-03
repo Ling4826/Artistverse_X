@@ -84,7 +84,7 @@ describe('UTC-22: handleCallback Method Tests', () => {
     // Act
     const result = await authStore.handleCallback(mockAuthCode)    // Assert
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/callback?code=valid_auth_code_12345'
+      `/api/auth/spotify/callback?code=${mockAuthCode}`
     )
     expect(result).toBe(true)
     expect(authStore.isLoading).toBe(false)
@@ -117,7 +117,7 @@ describe('UTC-22: handleCallback Method Tests', () => {
 
     // Assert additional behavior
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/callback?code=null'
+      '/api/auth/spotify/callback?code=null'
     )
     expect(authStore.isLoading).toBe(false)
   })
@@ -146,7 +146,7 @@ describe('UTC-22: handleCallback Method Tests', () => {
 
     // Assert additional behavior
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/callback?code=invalid_code_123'
+      '/api/auth/spotify/callback?code=invalid_code_123'
     )
     expect(authStore.isLoading).toBe(false)
   })
@@ -179,7 +179,7 @@ describe('UTC-22: handleCallback Method Tests', () => {
 
     // Assert
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/callback?code=valid_auth_code_12345'
+      `/api/auth/spotify/callback?code=${mockAuthCode}`
     )
     expect(result).toBe(true)
     expect(authStore.isLoading).toBe(false)

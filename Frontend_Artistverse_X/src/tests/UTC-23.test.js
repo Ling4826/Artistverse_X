@@ -90,7 +90,7 @@ describe('UTC-23: ensureValidToken Method Tests', () => {
     // Assert
     expect(result).toBe(true)
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/validate',
+      '/api/auth/spotify/validate',
       {
         headers: {
           'Authorization': 'Bearer BQC4VK3_valid_token'
@@ -132,7 +132,7 @@ describe('UTC-23: ensureValidToken Method Tests', () => {
     // Assert
     expect(result).toBe(true)
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/refresh',
+      '/api/auth/spotify/refresh',
       {
         method: 'POST',
         headers: {
@@ -204,7 +204,7 @@ describe('UTC-23: ensureValidToken Method Tests', () => {
     // Assert
     expect(result).toBe(false)
     expect(fetch).toHaveBeenCalledWith(
-      'http://127.0.0.1:5000/auth/spotify/refresh',
+      '/api/auth/spotify/refresh',
       {
         method: 'POST',
         headers: {
@@ -268,7 +268,7 @@ describe('UTC-23: ensureValidToken Method Tests', () => {
     
     // Verify validation was called first
     expect(fetch).toHaveBeenNthCalledWith(1,
-      'http://127.0.0.1:5000/auth/spotify/validate',
+      '/api/auth/spotify/validate',
       {
         headers: {
           'Authorization': 'Bearer BQC4VK3_invalid_token'
@@ -278,7 +278,7 @@ describe('UTC-23: ensureValidToken Method Tests', () => {
     
     // Verify refresh was called after validation failed
     expect(fetch).toHaveBeenNthCalledWith(2,
-      'http://127.0.0.1:5000/auth/spotify/refresh',
+      '/api/auth/spotify/refresh',
       {
         method: 'POST',
         headers: {

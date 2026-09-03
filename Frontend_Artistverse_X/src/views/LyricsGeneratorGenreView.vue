@@ -2,16 +2,11 @@
   <div class="background">
 
     <div class="layout">
-      <h1
-        class="text-4xl md:text-5xl mt-8 animate__animated animate__fadeInDown animate__delay-1s"
-        style="animation-duration: 2s"
-      >
+      <h1 class="text-4xl md:text-5xl mt-8 animate__animated animate__fadeInDown animate__delay-1s"
+        style="animation-duration: 2s">
         Lyrics Generator by "Genre"
       </h1>
-      <div
-        class="nav mt-5 animate__animated animate__fadeInDown animate__delay-1s"
-        style="animation-duration: 2s"
-      >
+      <div class="nav mt-5 animate__animated animate__fadeInDown animate__delay-1s" style="animation-duration: 2s">
         <router-link to="/generate-lyrics-genre">
           <button class="btn-23 mr-2 md:mr-4">
             <span class="text">Genre</span>
@@ -33,19 +28,10 @@
       </div>
     </div>
     <div class="container1 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 md:mt-4">
-      <div
-        class="box1 animate__animated animate__fadeIn animate__delay-2s"
-        style="animation-duration: 2s"
-      >
-        <h1 class="header text-4xl mb-3" >Lyrics Generator</h1>
+      <div class="box1 animate__animated animate__fadeIn animate__delay-2s" style="animation-duration: 2s">
+        <h1 class="header text-4xl mb-3">Lyrics Generator</h1>
         <div class="form-control mb-5">
-          <input
-            v-model="prompt"
-            class="input input-alt"
-            placeholder="Your Lyrics Topic"
-            required=""
-            type="text"
-          />
+          <input v-model="prompt" class="input input-alt" placeholder="Your Lyrics Topic" required="" type="text" />
           <span class="input-border input-border-alt"></span>
         </div>
         <div v-if="errors.prompt" class="error-message">{{ errors.prompt }}</div>
@@ -91,13 +77,11 @@
           </div>
         </button>
       </div>
-      <div
-        class="box2 mb-5 animate__animated animate__fadeIn animate__delay-2s"
-        style="animation-duration: 2s"
-      >
+      <div class="box2 mb-5 animate__animated animate__fadeIn animate__delay-2s" style="animation-duration: 2s">
         <!-- <h1 v-if="text" class="text-left" >Result</h1> -->
-         
-        <div v-if="loading" class="loader"></div>        <div v-else>
+
+        <div v-if="loading" class="loader"></div>
+        <div v-else>
           <pre v-if="lyrics" class="lyrics-container animate__animated animate__fadeIn">{{
             lyrics
           }}</pre>
@@ -127,7 +111,7 @@ export default {
       errors: {}
     }
   },
-// Lifecycle hook
+  // Lifecycle hook
   mounted() {
     const edited = localStorage.getItem('lyrics_after_edit');
     if (edited) {
@@ -135,7 +119,7 @@ export default {
       localStorage.removeItem('lyrics_after_edit');
     }
   },
-  
+
   methods: {
     validateForm() {
       this.errors = {};
@@ -185,7 +169,8 @@ export default {
             },
             position: 'top',
           });
-        }      } finally {
+        }
+      } finally {
         this.loading = false;
         this.text = false;
       }
@@ -199,10 +184,11 @@ export default {
   color: red;
   font-size: 0.9em;
   position: relative;
-}   
-.btn-save{
+}
+
+.btn-save {
   font-weight: 600;
-  color:rgb(0, 0, 0);
+  color: rgb(0, 0, 0);
   background-color: white;
   position: relative;
   padding: 3px;
@@ -211,11 +197,13 @@ export default {
   border-radius: 5px;
 
 }
+
 .lyrics-container {
   max-height: 350px;
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .loader {
   width: 8px;
   height: 40px;
@@ -256,6 +244,7 @@ export default {
     height: 4px;
   }
 }
+
 .btn {
   display: flex;
   justify-content: center;
@@ -426,12 +415,14 @@ strong {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }
+
 .background {
   min-height: 100vh;
   background-color: #1b1b1b;
   padding-left: 30px;
   padding-right: 30px;
 }
+
 .dropdown {
   display: flex;
   justify-content: center;
@@ -488,6 +479,7 @@ select::after {
   left: 0;
   transition: width 0.3s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
+
 .alert-message {
   position: fixed;
   top: 20px;
@@ -499,11 +491,12 @@ select::after {
   border-radius: 5px;
   z-index: 1000;
 }
+
 .input:focus {
   outline: none;
 }
 
-.input:focus + .input-border {
+.input:focus+.input-border {
   width: 100%;
 }
 
@@ -525,9 +518,10 @@ select::after {
   transition: width 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 
-.input-alt:focus + .input-border-alt {
+.input-alt:focus+.input-border-alt {
   width: 100%;
 }
+
 .header {
   color: #000;
 }
@@ -704,9 +698,11 @@ h1 {
   .btn-23 {
     font-size: 90%;
   }
+
   .h1 {
     margin-top: 20px;
   }
+
   .btn {
     position: relative;
     top: 70px;

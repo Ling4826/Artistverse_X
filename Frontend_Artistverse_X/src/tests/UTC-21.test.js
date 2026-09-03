@@ -84,7 +84,7 @@ describe('UTC-21: login() Method Tests', () => {
 
     await authStore.login()
 
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/auth/spotify/login')
+    expect(fetch).toHaveBeenCalledWith('/api/auth/spotify/login')
     expect(window.location.href).toBe(mockResponse.auth_url)
     expect(authStore.isLoading).toBe(false)
   })
@@ -101,7 +101,7 @@ describe('UTC-21: login() Method Tests', () => {
 
     await expect(authStore.login()).rejects.toThrow('Login failed')
 
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/auth/spotify/login')
+    expect(fetch).toHaveBeenCalledWith('/api/auth/spotify/login')
     expect(console.error).toHaveBeenCalledWith('Login error:', expect.any(Error))
     expect(authStore.isLoading).toBe(false)
     expect(window.location.href).toBe('')
@@ -113,7 +113,7 @@ describe('UTC-21: login() Method Tests', () => {
 
     await expect(authStore.login()).rejects.toThrow('Network error occurred')
 
-    expect(fetch).toHaveBeenCalledWith('http://127.0.0.1:5000/auth/spotify/login')
+    expect(fetch).toHaveBeenCalledWith('/api/auth/spotify/login')
     expect(console.error).toHaveBeenCalledWith('Login error:', networkError)
     expect(authStore.isLoading).toBe(false)
     expect(window.location.href).toBe('')
