@@ -3,7 +3,6 @@
 **Target URL:** `https://artiverse.camt.cmu.ac.th/`  
 **Date:** September 3, 2026  
 **Auditor Team:** QA & Testing Team  
-**Session Recording Artifact:** ![Browser Test Video](/C:/Users/ACER/.gemini/antigravity-ide/brain/ea211497-29df-463b-b9df-13fcb9d7d1fc/artiverse_nft_inspection_1788437561772.webp)
 
 ---
 

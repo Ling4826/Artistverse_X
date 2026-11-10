@@ -33,10 +33,6 @@ flowchart TD
 7. **Non-Functional Test Cases Spec**: [non_functional_test_cases.md](file:///d:/Artistverse_X/QA_Documentation/non_functional_test_cases.md)
 8. **Non-Functional Testing Report (Live Site)**: [non_functional_test_report.md](file:///d:/Artistverse_X/QA_Documentation/non_functional_test_report.md)
 
-### 🎬 2. Live Browser Session Recording
-- **Non-Functional Live Site Test Recording**:  
-  ![Browser Test Video Session](/C:/Users/ACER/.gemini/antigravity-ide/brain/ea211497-29df-463b-b9df-13fcb9d7d1fc/artiverse_nft_inspection_1788437561772.webp)
-
 ---
 
 ## 3. Summary of Results
