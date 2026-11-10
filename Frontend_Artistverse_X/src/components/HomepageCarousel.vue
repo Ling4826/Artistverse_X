@@ -13,7 +13,7 @@ export default {
           description:
             'Artistverse X streamlines songwriting with customizable lyrics, genre and mood selection, and chord progression recommendations. Mimic your favorite artists, get emotional song suggestions through facial recognition, and enjoy an engaging, efficient music creation experience. Embrace the future of music with Artistverse X.',
           image:
-            'https://png.pngtree.com/thumb_back/fw800/background/20220709/pngtree-abstract-lowpoly-data-visualization-on-dark-background-ai-contemporary-cell-photo-image_37843356.jpg'
+            '/images/artistverse.jpg'
         },
         {
           head: 'Together,',
@@ -21,7 +21,7 @@ export default {
           title: 'Lets Rock!!!',
           description: 'We can created the rock lyrics for you. but not just the rock genre but also Create personalized lyrics from various moods and genres, compose in multiple languages, and mimic your favorite artists.Just Input prompts, and our system crafts unique lyrics tailored to your preferences.',
           image:
-            'https://lafransatravellers.com/wp-content/uploads/2019/03/actuacion-actuacion-en-vivo-artistas-1763075.jpg'
+            '/images/lets-rock.jpg'
         },
         {
           head: 'Feeling',
