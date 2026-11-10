@@ -8,7 +8,6 @@ As part of the Quality Assurance and Testing team for **Artistverse X**, we eval
 flowchart TD
     A["Artistverse X QA Strategy"] --> B["1. Functional Testing (WHAT it does)"]
     A --> C["2. Non-Functional Testing (HOW WELL it performs)"]
-    A --> D["3. Docker Containerization (REPRODUCIBILITY)"]
     
     B --> B1["Positive Testing (Happy Path)"]
     B --> B2["Negative Testing (Validation Errors)"]
@@ -18,32 +17,11 @@ flowchart TD
     C --> C2["Security & HTTP Headers Audit (HSTS, CSP, X-Frame)"]
     C --> C3["Cross-Device Responsiveness (Desktop/Tablet/Mobile)"]
     C --> C4["Usability & SPA 404 Route Resilience"]
-
-    D --> D1["Frontend Nginx Container (Port 80/8080)"]
-    D --> D2["Backend Flask WSGI Container (Port 5005)"]
 ```
 
 ---
 
-## 2. Docker & Docker Compose Containerization Architecture
-
-Artistverse X is fully containerized using Docker and Docker Compose:
-
-- **Backend Container (`artistverse-backend`)**:
-  - Python 3.10-slim base image with Gunicorn WSGI server.
-  - Automatically loads Environment Keys (`.env`) for Groq Cloud and Spotify OAuth.
-- **Frontend Container (`artistverse-frontend`)**:
-  - Multi-stage build (`node:20-alpine` build $\rightarrow$ `nginx:alpine` production).
-  - Nginx Reverse Proxy handles SPA HTML5 history route fallback and forwards `/api/` requests to `http://backend:5005/`.
-
-### Docker Deployment Command:
-```bash
-docker-compose up -d --build
-```
-
----
-
-## 3. Deliverables Master Index
+## 2. Deliverables Master Index
 
 ### 📄 1. Test Specifications & Reports
 1. **Lyrics Generator Functional Spec**: [functional_test_cases_lyrics_generator.md](file:///d:/Artistverse_X/QA_Documentation/functional_test_cases_lyrics_generator.md)
@@ -61,7 +39,7 @@ docker-compose up -d --build
 
 ---
 
-## 4. Summary of Results
+## 3. Summary of Results
 
 ### 🧪 Functional Testing Results (113/113 Passed)
 ```bash
@@ -75,3 +53,7 @@ docker-compose up -d --build
 - **Total Load Duration**: `126.7 ms` (Target Benchmark $\le 2500\text{ ms}$) $\rightarrow$ **EXCELLENT**
 - **Asset Caching**: 30-day immutable client caching (`max-age=2592000`)
 - **Cross-Device Responsiveness**: Verified across Desktop ($1920\times1080$), Tablet ($768\times1024$), and Mobile ($375\times812$)
+- **Actionable QA Recommendations**:
+  1. Update HTML `<title>` tag from `"Vite App"` to `"Artistverse X"`.
+  2. Implement Security Headers (`HSTS`, `CSP`, `X-Frame-Options`, `X-Content-Type-Options`) in Web Server OpenResty.
+  3. Add a catch-all 404 View Component in Vue Router to handle invalid path navigation gracefully.
