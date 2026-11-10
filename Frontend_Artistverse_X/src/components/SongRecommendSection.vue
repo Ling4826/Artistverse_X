@@ -201,10 +201,7 @@ export default {
       isLoading: false,
       isLoggingIn: false,
       error: null,
-      // Cache for audio features
-      audioFeaturesCache: new Map(),
-      loadingFeatures: false,
-      // ChatGPT content generation
+      // Groq content generation
       isGeneratingContent: false,
       contentCache: new Map() // Cache for generated song content
     }
@@ -269,10 +266,8 @@ export default {
         const defaultGenres = ['pop', 'rock', 'hip-hop', 'indie']
         const response = await spotifyRecommendService.getRecommendations(defaultGenres, 12)
           if (response.success) {
+          // Each recommendation already carries its estimated beat/key/mood
           this.recommendedSongs = response.data?.recommendations || []
-          
-          // Don't load track features automatically anymore
-          // Let user click on songs to load features individually
         } else {
           throw new Error(response.message || 'Failed to load recommendations')
         }
@@ -283,42 +278,11 @@ export default {
       } finally {
         this.isLoading = false
       }
-    },    async loadTrackFeatures() {
-      try {
-        // Get Spotify IDs for tracks that have them
-        const trackIds = this.recommendedSongs
-          .filter(song => song.spotify_id)
-          .map(song => song.spotify_id)
-          .slice(0, 10) // Limit to first 10 to avoid rate limits
-
-        if (trackIds.length === 0) return
-
-        const featuresResponse = await spotifyRecommendService.getTrackFeatures(
-          this.authStore.accessToken,
-          trackIds
-        )
-
-        if (featuresResponse.success && featuresResponse.features) {
-          // Update songs with detailed features
-          this.recommendedSongs = this.recommendedSongs.map(song => {
-            if (song.spotify_id && featuresResponse.features[song.spotify_id]) {
-              return spotifyRecommendService.formatTrackData(song, featuresResponse.features)
-            }
-            return song
-          })
-        }
-      } catch (error) {
-        console.error('Error loading track features:', error)
-        // Don't show error to user as this is non-critical
-      }
     },
 
     selectSong(song) {
       this.selectedSong = song
-      
-      // Load audio features for this specific song if not cached
-      this.loadSingleTrackFeatures(song)
-      
+
       // Auto scroll to details section
       this.$nextTick(() => {
         if (this.$refs.songDetailsSection) {
@@ -330,47 +294,7 @@ export default {
       })
     },
 
-    async loadSingleTrackFeatures(song) {
-      if (!song.spotify_id) return
-
-      // Check if features are already cached
-      if (this.audioFeaturesCache.has(song.spotify_id)) {
-        const cachedFeatures = this.audioFeaturesCache.get(song.spotify_id)
-        this.selectedSong = { ...song, ...cachedFeatures }
-        return
-      }
-
-      // Load features for this specific track
-      try {
-        this.loadingFeatures = true
-
-        const featuresResponse = await spotifyRecommendService.getTrackFeatures(
-          this.authStore.accessToken,
-          [song.spotify_id]
-        )
-
-        if (featuresResponse.success && featuresResponse.features && featuresResponse.features[song.spotify_id]) {
-          const features = featuresResponse.features[song.spotify_id]
-          
-          // Cache the features
-          this.audioFeaturesCache.set(song.spotify_id, features)
-          
-          // Update selected song with features
-          this.selectedSong = { ...song, ...features }
-          
-          // Also update the song in recommendedSongs array if it exists there
-          const songIndex = this.recommendedSongs.findIndex(s => s.spotify_id === song.spotify_id)
-          if (songIndex !== -1) {
-            this.recommendedSongs[songIndex] = { ...this.recommendedSongs[songIndex], ...features }
-          }
-        }
-      } catch (error) {
-        console.error('Error loading single track features:', error)
-        // Don't show error to user, just keep original song data
-      } finally {
-        this.loadingFeatures = false
-      }
-    },scrollLeft() {
+    scrollLeft() {
       const container = this.$refs.songsContainer
       if (container) {
         container.scrollBy({
@@ -449,7 +373,7 @@ export default {
       try {
         this.isGeneratingContent = true
 
-        // Call backend to generate content using ChatGPT
+        // Call backend to generate content using Groq
         const response = await spotifyRecommendService.generateSongContent({
           songTitle: this.selectedSong.song_title || this.selectedSong.name,
           artistName: this.selectedSong.artist_name || this.selectedSong.artist,
@@ -1261,7 +1185,7 @@ export default {
   box-shadow: 0 4px 12px rgba(29, 185, 84, 0.2);
 }
 
-/* ChatGPT Content Generation Styles */
+/* Groq Content Generation Styles */
 .generated-content {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 12px;

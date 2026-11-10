@@ -396,66 +396,7 @@ class SpotifyRecommendController:
         }
         
         return formatted_track
-    def get_track_features(self):
-        """Get detailed audio features for tracks using estimation algorithms"""
-        try:
-            # Get access token from request headers
-            auth_header = request.headers.get('Authorization')
-            if not auth_header or not auth_header.startswith('Bearer '):
-                return jsonify({
-                    'success': False,
-                    'error': 'Access token is required'
-                }), 401
 
-            access_token = auth_header.split(' ')[1]
-            data = request.get_json()
-            track_ids = data.get('track_ids', [])
-            
-            if not track_ids:
-                return jsonify({
-                    'success': False,
-                    'error': 'Track IDs are required'
-                }), 400
-            
-            # Create Spotify client with access token
-            sp = spotipy.Spotify(auth=access_token)
-            
-            formatted_features = {}
-            
-            # Process tracks one by one to get basic track info and estimate features
-            for track_id in track_ids:
-                try:
-                    # Get basic track information
-                    track = sp.track(track_id)
-                    
-                    if track:
-                        # Estimate audio features from track metadata
-                        estimated_features = self._estimate_audio_features(track)
-                        formatted_features[track_id] = estimated_features
-                    else:
-                        # Return default features if no track data
-                        formatted_features[track_id] = self._get_default_features()
-                        
-                except Exception as e:
-                    print(f"Could not get track info for {track_id}: {e}")
-                    # Use default features as fallback
-                    formatted_features[track_id] = self._get_default_features()
-            
-            return jsonify({
-                'success': True,
-                'features': formatted_features,
-                'has_detailed_features': True,
-                'estimation_note': 'Audio features estimated from track metadata'
-            })
-            
-        except Exception as e:
-            print(f"Error in get_track_features: {e}")
-            return jsonify({
-                'success': False,
-                'error': 'Unable to get track features',
-                'details': str(e)
-            }), 500    
-        
     def _estimate_audio_features(self, track):
         """Estimate audio features from track metadata"""        # Get artist info
         artist_name = track['artists'][0]['name'].lower() if track['artists'] else 'unknown'
@@ -766,19 +707,6 @@ class SpotifyRecommendController:
         # Return 1-2 primary moods
         return ", ".join(final_moods[:2])
       
-    def _get_default_features(self):
-        """Return default audio features when API fails"""
-        return {
-            'tempo': '120 BPM',
-            'energy': 65,
-            'valence': 55,
-            'danceability': 60,
-            'acousticness': 30,
-            'key': 'C',
-            'mode': 'Major',
-            'mood': 'Balanced, Moderate'
-        }
-    
     def _get_key_name(self, key_number):
         """Convert key number to key name"""
         keys = ['C', 'C/D', 'D', 'D/E', 'E', 'F', 'F/G', 'G', 'G/A', 'A', 'A/B', 'B']
@@ -1060,7 +988,7 @@ class SpotifyRecommendController:
         return f"{minutes}:{remaining_seconds:02d}"
 
     def generate_song_content(self):
-        """Generate song content analysis using ChatGPT API"""
+        """Generate song content analysis using the Groq API"""
         try:
             # Get request data
             data = request.get_json()
@@ -1090,7 +1018,7 @@ class SpotifyRecommendController:
                     'error': 'Groq API key not configured'
                 }), 500
 
-            # Create prompt for ChatGPT
+            # Create prompt for Groq
             prompt = self._create_content_prompt(song_title, artist_name, genre, mood, keywords)
             
             # Generate content using Groq
@@ -1127,7 +1055,7 @@ class SpotifyRecommendController:
             }), 500
 
     def _create_content_prompt(self, song_title, artist_name, genre, mood, keywords):
-        """Create a prompt for ChatGPT content generation"""
+        """Create a prompt for Groq content generation"""
         keywords_str = ', '.join(keywords) if keywords else 'N/A'
         
         prompt = f"""
