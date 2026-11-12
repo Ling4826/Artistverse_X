@@ -261,24 +261,18 @@
 
 <script>
 import { useSearchStore } from '../stores/useSearchStore';
-import { useAuthStore } from '../stores/auth';
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 
 export default {
   name: 'SearchView',
   setup() {
     const searchStore = useSearchStore();
-    const authStore = useAuthStore();
     const showSuggestions = ref(false);
     const currentSort = ref('relevance');    // Initialize store
     onMounted(async () => {
       searchStore.initialize();
       // Load initial songs when component mounts
       await searchStore.loadInitialSongs(20);
-      
-      if (authStore.isAuthenticated) {
-        await authStore.fetchUserTopArtists();
-      }
     });
 
     // Watch for search query changes to hide suggestions
@@ -410,7 +404,6 @@ export default {
 
     return {
       searchStore,
-      authStore,
       showSuggestions,
       currentSort,
       handleSearch,

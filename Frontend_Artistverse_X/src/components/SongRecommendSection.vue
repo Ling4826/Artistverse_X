@@ -3,23 +3,8 @@
     <div class="container">
       <h2 class="section-title">Song Recommend for you</h2>
       
-      <!-- Authentication Required Message -->
-      <div v-if="!isAuthenticated" class="auth-required-message">
-        <div class="auth-container">
-          <div class="auth-icon"></div>
-          <h3>Login Required</h3>
-          <p>Please login with Spotify to get personalized song recommendations</p>
-          <button @click="loginWithSpotify" class="spotify-login-btn" :disabled="isLoggingIn">
-            <svg class="spotify-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.42 1.56-.299.421-1.02.599-1.559.3z"/>
-            </svg>
-            {{ isLoggingIn ? 'Connecting...' : 'Login with Spotify' }}
-          </button>
-        </div>
-      </div>
-
       <!-- Loading State -->
-      <div v-else-if="isLoading" class="loading-container">
+      <div v-if="isLoading" class="loading-container">
         <div class="loading-spinner">
           <div class="spinner"></div>
           <h3>Loading Recommendations...</h3>
@@ -71,7 +56,7 @@
         </div>
       </div>
         <!-- Song Details Section -->
-      <div v-if="selectedSong && isAuthenticated" class="song-details-section" ref="songDetailsSection">
+      <div v-if="selectedSong" class="song-details-section" ref="songDetailsSection">
         <div class="song-details-container">
           <div class="song-details-header">
             <div class="song-details-image">
@@ -184,53 +169,31 @@
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth'
 import spotifyRecommendService from '@/services/spotifyRecommendService'
 
 export default {
   name: 'SongRecommendSection',
-  setup() {
-    const authStore = useAuthStore()
-    return { authStore }
-  },  data() {
+  data() {
     return {
       isAtStart: true,
       isAtEnd: false,
       selectedSong: null,
       recommendedSongs: [],
       isLoading: false,
-      isLoggingIn: false,
       error: null,
       // Groq content generation
       isGeneratingContent: false,
       contentCache: new Map() // Cache for generated song content
     }
   },
-  computed: {
-    isAuthenticated() {
-      return this.authStore.isAuthenticated
-    }
-  },  async mounted() {
-    // Load recommendations if user is authenticated
-    if (this.isAuthenticated) {
-      await this.loadRecommendations()
-    }
+  async mounted() {
+    await this.loadRecommendations()
     
     // Setup scroll position checking after next tick
     this.$nextTick(() => {
       this.checkScrollPosition()
     })
   },  watch: {
-    // Watch for authentication changes
-    isAuthenticated(newVal) {
-      if (newVal) {
-        this.loadRecommendations()
-      } else {
-        this.recommendedSongs = []
-        this.selectedSong = null
-        this.error = null
-      }
-    },
     // Watch for songs changes to update scroll position
     recommendedSongs() {
       this.$nextTick(() => {
@@ -239,30 +202,12 @@ export default {
     }
   },
   methods: {
-    async loginWithSpotify() {
-      try {
-        this.isLoggingIn = true
-        await this.authStore.login()
-      } catch (error) {
-        console.error('Login failed:', error)
-        this.error = 'Failed to login with Spotify. Please try again.'
-      } finally {
-        this.isLoggingIn = false
-      }
-    },
-
     async loadRecommendations() {
-      if (!this.isAuthenticated) {
-        return
-      }
-
       try {
         this.isLoading = true
-        this.error = null        // Ensure valid token
-        await this.authStore.ensureValidToken()
-        
-        // Set authorization token in service
-        spotifyRecommendService.setAuthToken(this.authStore.accessToken)        // Get recommendations with default genres
+        this.error = null
+
+        // Get recommendations with default genres
         const defaultGenres = ['pop', 'rock', 'hip-hop', 'indie']
         const response = await spotifyRecommendService.getRecommendations(defaultGenres, 12)
           if (response.success) {
@@ -442,73 +387,6 @@ export default {
   letter-spacing: 3px;
   text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   text-transform: uppercase;
-}
-
-/* Authentication Required State */
-.auth-required-message {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 400px;
-}
-
-.auth-container {
-  text-align: center;
-  max-width: 500px;
-  padding: 60px 40px;
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 25px;
-  backdrop-filter: blur(15px);
-}
-
-.auth-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-}
-
-.auth-container h3 {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 15px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.auth-container p {
-  font-size: 1.1rem;
-  color: #cccccc;
-  margin-bottom: 30px;
-  line-height: 1.6;
-}
-
-.spotify-login-btn {
-  background: linear-gradient(135deg, #1db954 0%, #1ed760 100%);
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 auto;
-}
-
-.spotify-login-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
-  background: linear-gradient(135deg, #1ed760 0%, #1db954 100%);
-}
-
-.spotify-login-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
 }
 
 .spotify-icon {
@@ -1156,8 +1034,6 @@ export default {
   flex: 1;
 }
 
-
-
 .keywords-list {
   display: flex;
   flex-wrap: wrap;
@@ -1619,18 +1495,6 @@ export default {
     grid-template-columns: 1fr;
   }
 
-  .auth-container {
-    padding: 40px 20px;
-  }
-
-  .auth-container h3 {
-    font-size: 1.5rem;
-  }
-
-  .spotify-login-btn {
-    padding: 12px 25px;
-    font-size: 1rem;
-  }
 }
 
 @media (max-width: 768px) {
