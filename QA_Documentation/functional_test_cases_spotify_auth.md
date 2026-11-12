@@ -3,6 +3,8 @@
 ## 1. Module Overview
 This module handles Spotify OAuth 2.0 user authentication flow, authorization code exchange, access token refresh, profile loading, and local state persistence via Pinia Store (`auth.js`) and Callback View (`SpotifyCallbackView.vue`).
 
+> **Note:** The Spotify login button has been removed from the UI, and song recommendations now load without user login. The auth store, callback view and their unit tests are unchanged and still pass.
+
 ---
 
 ## 2. Functional Test Cases Specification Table

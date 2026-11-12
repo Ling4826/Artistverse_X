@@ -1,6 +1,6 @@
 # Artistverse X
 
-Artistverse X is a web application featuring a Vue 3 frontend and a Python Flask backend. It allows users to authenticate via Spotify, analyze music, and generate AI-driven lyrics using Groq.
+Artistverse X is a web application featuring a Vue 3 frontend and a Python Flask backend. It recommends songs from Spotify, analyzes music, and generates AI-driven lyrics using Groq.
 
 ##  Architecture
 - **Frontend**: Vue 3 (Vite) + Nginx (Dockerized)

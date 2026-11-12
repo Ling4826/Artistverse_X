@@ -54,6 +54,7 @@ Our team categorized functional test cases into three primary types:
 
 ### 4.2 Module 2: Spotify Authentication & OAuth Callback (`SpotifyCallbackView.vue`, `auth.js`)
 - **Test File:** `src/tests/UTC-30.test.js` (9 tests)
+> **Note:** The Spotify login button has been removed from the UI, and song recommendations now load without user login. The auth store, callback view and their unit tests are unchanged and still pass.
 - **Status:** PASSED (9/9)
 - **Key Validation Points:**
   - URL parameter `code` exchange triggers `authStore.handleCallback()` and stores user tokens.
