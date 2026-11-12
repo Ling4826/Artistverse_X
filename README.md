@@ -41,6 +41,42 @@ REDIRECT_URI=http://localhost:10690/api/auth/spotify/callback
    - **Frontend**: `http://localhost:10690`
    - **phpMyAdmin**: `http://localhost:10692`
 
+### Running Without Docker (Development)
+Use this when you want hot reload, or when the full Docker build is too heavy for your machine.
+
+1. Start the database and load the seed data (only the database runs in Docker here):
+   ```bash
+   cd Backend_Artistverse_X
+   docker compose up -d ArtistverseX
+   docker exec -i ArtistverseX mysql -uroot -pArtistverseX ArtistverseX < init.sql
+   ```
+2. Create `Backend_Artistverse_X/.env` with `GROQ_API_KEY`, `SPOTIPY_CLIENT_ID` and `SPOTIPY_CLIENT_SECRET`. Set `DB_PASSWORD` only if your database password is not the default `ArtistverseX`.
+3. Start the backend (port `5005`):
+   ```bash
+   pip install -r requirements.txt
+   python main.py
+   ```
+4. Start the frontend (port `3000`, proxies `/api` to the backend):
+   ```bash
+   cd Frontend_Artistverse_X
+   npm install
+   npm run dev
+   ```
+5. Open `http://127.0.0.1:3000`.
+
+Notes:
+- Song recommendations use the Spotify app credentials directly, so no Spotify user login is needed.
+- Camera mood detection loads a TensorFlow model, so the backend needs a few GB of free memory to start.
+
+### Running the Tests
+```bash
+# Frontend
+cd Frontend_Artistverse_X && npm run test:run
+
+# Backend
+cd Backend_Artistverse_X && pip install pytest && python -m pytest test
+```
+
 ---
 
 ##  Production Deployment (Docker Swarm / Portainer)
