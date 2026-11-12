@@ -66,7 +66,7 @@ class VideoCamera:
             return jpeg.tobytes(), pd.DataFrame(), "Unknown"
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)
+        face_rects = face_cascade.detectMultiScale(gray, 1.1, 5)
 
         if len(face_rects) == 0:
             self.show_text = None
@@ -117,7 +117,7 @@ class VideoCamera:
                 return None, "Unknown"
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-            face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)
+            face_rects = face_cascade.detectMultiScale(gray, 1.1, 5)
 
             if len(face_rects) == 0:
                 return pd.DataFrame(), "Unknown"
