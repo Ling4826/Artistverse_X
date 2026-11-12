@@ -90,8 +90,21 @@ When updating the stack on Portainer, Docker Swarm aggressively caches images wi
 3. Change the image tags in the `docker-compose.yml` to match your new version (e.g., `image: lingth/artistverse_x-backend:v2`).
 4. Click **Update the stack**. The server will be forced to download the new version because it doesn't exist locally!
 
+### Currently Deployed
+Live site: https://artiverse.camt.cmu.ac.th
+
+| Service | Image | Notes |
+|---|---|---|
+| frontend | `lingth/artistverse_x-frontend:v7` | Nginx listens on 80 and 3000; the stack publishes `10690:3000` |
+| backend | `lingth/artistverse_x-backend:v4` | Gunicorn on 5005 |
+| mysql | `mariadb:10.11` | Data in volume `mysql-data-v5` |
+
+The next release should use frontend `v8` and backend `v5`. Each image has its own version number.
+
+The production stack does not load `database_init/init.sql` automatically. On a fresh database volume, import it once through phpMyAdmin (port `10692`), or emotion detection and song lists will return errors.
+
 ### Port Routing Notice
-The backend container is **NOT** exposed directly to the outside world. All external traffic hits the Frontend (Nginx) on port `10690`, which then proxies API requests (starting with `/api/`) internally to the Backend on port `5000`.
+The backend container is **NOT** exposed directly to the outside world. All external traffic hits the Frontend (Nginx) on port `10690`, which then proxies API requests (starting with `/api/`) internally to the Backend on port `5005`. The service must be named `backend` in the compose file, because Nginx proxies to `http://backend:5005`.
 
 ---
 
@@ -99,8 +112,12 @@ The backend container is **NOT** exposed directly to the outside world. All exte
 
 ### 1. Nginx Proxy Configuration (`nginx.conf`)
 Inside the Frontend, Nginx acts as a reverse proxy for the Python backend. 
-- **Resolver Workaround**: We use `resolver 127.0.0.11 valid=30s;` and a variable (`$backend_upstream`) instead of a direct `proxy_pass http://backend:5000/`. This is **crucial**. If we don't do this, Nginx will crash completely on startup if the Python backend takes too long to connect to the database.
+- **Resolver Workaround**: We use `resolver 127.0.0.11 valid=30s;` and a variable (`$backend_upstream`) instead of a direct `proxy_pass http://backend:5005/`. This is **crucial**. If we don't do this, Nginx will crash completely on startup if the Python backend takes too long to connect to the database.
 - **URI Rewrite**: Because we use a variable in `proxy_pass`, Nginx forgets to strip the `/api/` prefix. We added a `rewrite ^/api/(.*) /$1 break;` rule to fix this. **Do not remove these lines!**
+- **Upload Size**: `client_max_body_size 10m;` lets camera snapshots (sent as base64 JSON) through. Without it, Nginx rejects anything over 1MB with `413`, and the page shows "Mood could not be detected".
 
-### 2. Security & `.env` Leaks
+### 2. Face Detection (`service/VideoCameraModelService.py`)
+`detectMultiScale(gray, 1.1, 5)` uses a scale step of `1.1`. The old value `1.3` missed faces in ordinary webcam shots (bright room, glasses), and the page showed "Mood could not be detected, Try again". If the message appears and the backend log has no `Error processing image` line, no face was found in the photo.
+
+### 3. Security & `.env` Leaks
 Your `.env` file is safe. The `Backend_Artistverse_X/.dockerignore` file contains `.env`, which guarantees that your secret API keys are **never** baked into the public Docker image on Docker Hub. The `.env` file is only read at runtime by the `docker-compose.yml` on your server.
