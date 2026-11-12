@@ -1,5 +1,6 @@
 from flask import jsonify, request
 import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 import os
 from dotenv import load_dotenv
 import random
@@ -144,18 +145,27 @@ class SpotifyRecommendController:
     def get_recommendations(self):
         """Get music recommendations from Spotify API"""
         try:
-            # Validate access token
-            auth_result = self._validate_access_token()
-            if auth_result['error']:
-                return jsonify({
-                    'success': False,
-                    'error': auth_result['error']
-                }), auth_result['status_code']
-            
-            sp = auth_result['spotify_client']
-            
-            # Get recommendations from multiple sources
-            recommendations = self._gather_recommendations(sp)
+            body = request.get_json(silent=True) or {}
+            guest = bool(body.get('guest')) and not request.headers.get('Authorization')
+
+            if guest:
+                # No user login: use the app's own (client-credentials) token
+                sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
+                    client_id=self.client_id, client_secret=self.client_secret))
+                recommendations = self._get_popular_tracks(sp, 12)
+            else:
+                # Validate access token
+                auth_result = self._validate_access_token()
+                if auth_result['error']:
+                    return jsonify({
+                        'success': False,
+                        'error': auth_result['error']
+                    }), auth_result['status_code']
+
+                sp = auth_result['spotify_client']
+
+                # Get recommendations from multiple sources
+                recommendations = self._gather_recommendations(sp)
             
             # Process and return final recommendations
             final_recommendations = self._process_recommendations(recommendations)

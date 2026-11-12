@@ -57,7 +57,8 @@ class SpotifyRecommendService {
 
       const response = await this.axiosInstance.post('/spotify/recommend', {
         genres: genres,
-        limit: limit
+        limit: limit,
+        guest: true
       });
 
       return {
